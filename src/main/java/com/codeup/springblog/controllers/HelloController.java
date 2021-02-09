@@ -17,7 +17,8 @@ public class HelloController {
     @GetMapping("/hello/{name}")
     @ResponseBody
 
-    //the path variable allows me to do /hello/caleb and it will return Hello Caleb! on the html
+    //the path variable allows me to do /hello/caleb and it will return
+    // Hello Caleb! on the html
     public String sayHello(@PathVariable String name){
         return "Hello " + name + "!";
     }
