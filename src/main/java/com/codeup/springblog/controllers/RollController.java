@@ -1,19 +1,39 @@
+
 package com.codeup.springblog.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.ui.Model;
+import com.codeup.springblog.models.Post;
 
-//Create a page at /roll-dice that asks the user to guess a number. There should be links on this page for 1 through 6 that should make a GET request to /roll-dice/n where n is the number guessed. This page should display a random number (the dice roll), the user's guess and a message based on whether or not they guessed the correct number.
+import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 public class RollController {
-    @GetMapping("/roll-dice")
-    public String rollDice(){
-        return "roll-dice";
+    @GetMapping("/roll-dice/{guess}")
+    public String rollDice(@PathVariable int guess, Model model){
+        String message;
+//		https://stackoverflow.com/questions/363681/how-do-i-generate-random-integers-within-a-specific-range-in-java
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+
+        if(guess == randomNum){
+            message = "Yay, you guessed correctly!";
+        } else {
+            message = "Sorry, try again!";
+        }
+
+        model.addAttribute("randomNumber", randomNum);
+        model.addAttribute("guess", guess);
+        model.addAttribute("message", message);
+
+        return "roll-results";
+
+
     }
 
-//    @GetMapping("/roll-dice/{n}")
-
+    @GetMapping("roll-dice")
+    public String showRollDice(){
+        return "roll-dice";
+    }
 }
