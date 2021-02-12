@@ -12,19 +12,20 @@ public class HelloController {
         return "Hello from Spring!";
     }
 
-    //defeining a path variable
-    //will evaluate whats in brackets after name
+
     @GetMapping("/hello/{name}")
     @ResponseBody
-
-    //the path variable allows me to do /hello/caleb and it will return Hello Caleb! on the html
     public String sayHello(@PathVariable String name){
         return "Hello " + name + "!";
     }
 
+//    @GetMapping("/home/{name}")
+//    public String sayHello(@PathVariable String name, Model model){
+//        model.addAttribute("name", name);
+//        return "hello";
+//    }
 
-
-    //can be a get or a post must indiciate path, get by default
+    //can be a get or a post must indicate path, get by default
     @RequestMapping(path = "/increment/{number}", method = RequestMethod.GET)
     @ResponseBody
     //statically typed must specify type of parameter we are passing in
