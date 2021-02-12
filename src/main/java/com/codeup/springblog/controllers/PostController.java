@@ -2,17 +2,23 @@
 package com.codeup.springblog.controllers;
 
 import com.codeup.springblog.models.Post;
+import com.codeup.springblog.repositories.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class PostController {
+    //Dependency injections
+    private final PostRepository postsDao;
+
+    //Nec. construct
+    public PostController (PostRepository postsDao){
+        this.postsDao = postsDao;
+    }
 
     @GetMapping("/posts")
     public String postsIndex(Model model){
@@ -50,5 +56,17 @@ public class PostController {
     @ResponseBody
     public String createPost(){
         return "Creating a new post...";
+    }
+
+    ////////////////////////////////////////////////////////
+    //Edit and delete using post mapping for forms (posts)//
+    ////////////////////////////////////////////////////////
+    @PostMapping("/posts/{id}/edit")
+    public String editPost(@PathVariable long id, @RequestParam String title, @RequestParam String body){
+        Post postToChange = postsDao.getOne(id);
+        postToChange.setTitle(title);
+        postToChange.setBody(body);
+        postsDao.save(postToChange);
+        return "redirect:/posts/" +id;
     }
 }
