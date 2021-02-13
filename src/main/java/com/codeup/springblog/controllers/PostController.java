@@ -39,7 +39,6 @@ public class PostController {
 
     @GetMapping("/posts/{id}")
     public String postView(Model model){
-//        get single post by id later
         Post post = new Post("First Post", "This is my first post", 1);
         model.addAttribute("title", "Single Posts");
         model.addAttribute("post", post);
