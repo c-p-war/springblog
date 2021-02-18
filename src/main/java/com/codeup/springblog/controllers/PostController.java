@@ -22,27 +22,44 @@ public class PostController {
 
     @GetMapping("/posts")
     public String postsIndex(Model model){
-        Post post1 = new Post("First Post", "This is my first post", 1);
-        Post post2 = new Post("Second Post", "This is my 2nd post", 2);
-        Post post3 = new Post("Third Post", "This is my 3rd post", 3);
-
-        List<Post> postList = new ArrayList<>();
-        postList.add(post1);
-        postList.add(post2);
-        postList.add(post3);
-
-        model.addAttribute("title", "All Posts");
-        model.addAttribute("posts", postList);
+        model.addAttribute("posts", postsDao.findAll());
 
         return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
-    public String postView(Model model){
-        Post post = new Post("First Post", "This is my first post", 1);
-        model.addAttribute("title", "Single Posts");
+    public String postView(Model model, @PathVariable long id) {
+        Post post = postsDao.getOne(id);
         model.addAttribute("post", post);
         return "posts/show";
+    }
+
+    @GetMapping("/posts/{id}/edit")
+    public String vieweditPostForm(@PathVariable long id, Model model){
+        model.addAttribute("post", postsDao.getOne(id));
+        return "posts/edit";
+    }
+
+    ////////////////////////////////////////////////////////
+    //Edit and delete using post mapping for forms (posts)//
+    ////////////////////////////////////////////////////////
+    @PostMapping("/posts/{id}/edit")
+    public String editPost(@PathVariable long id, @RequestParam String title, @RequestParam String body){
+        Post postToChange = postsDao.getOne(id);
+        postToChange.setTitle(title);
+        postToChange.setBody(body);
+        postsDao.save(postToChange);
+        return "redirect:/posts/" +id;
+    }
+
+    @PostMapping("/posts/{id}/delete")
+    public String deletePost(@PathVariable long id){
+        System.out.println("Removing post");
+        postsDao.deleteById(id);
+        //////////////////////////////////////////////////
+        //Is this part of spring? Or simply a template? //
+        /////////////////////////////////////////////////
+        return "redirect:/posts";
     }
 
     @GetMapping("/posts/create")
@@ -57,15 +74,7 @@ public class PostController {
         return "Creating a new post...";
     }
 
-    ////////////////////////////////////////////////////////
-    //Edit and delete using post mapping for forms (posts)//
-    ////////////////////////////////////////////////////////
-    @PostMapping("/posts/{id}/edit")
-    public String editPost(@PathVariable long id, @RequestParam String title, @RequestParam String body){
-        Post postToChange = postsDao.getOne(id);
-        postToChange.setTitle(title);
-        postToChange.setBody(body);
-        postsDao.save(postToChange);
-        return "redirect:/posts/" +id;
-    }
+
+
+
 }
