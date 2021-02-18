@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(11) UNSIGNED")
     private long id;
 
     @Column(length = 60, nullable = false)
@@ -18,7 +19,7 @@ public class Post {
     // Constructor //
     ////////////////
 
-    public Post() {
+    public Post(long id, String title, String body) {
     }
 
     public Post(String title, String body, long id) {

@@ -44,12 +44,14 @@ public class PostController {
     //Edit and delete using post mapping for forms (posts)//
     ////////////////////////////////////////////////////////
     @PostMapping("/posts/{id}/edit")
-    public String editPost(@PathVariable long id, @RequestParam String title, @RequestParam String body){
-        Post postToChange = postsDao.getOne(id);
-        postToChange.setTitle(title);
-        postToChange.setBody(body);
-        postsDao.save(postToChange);
-        return "redirect:/posts/" +id;
+    public String updatePost(@PathVariable long id, @RequestParam String title, @RequestParam String body) {
+        Post post = new Post(
+                id,
+                title,
+                body
+        );
+        postsDao.save(post);
+        return "redirect:/posts";
     }
 
     @PostMapping("/posts/{id}/delete")

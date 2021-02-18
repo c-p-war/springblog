@@ -5,10 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import com.codeup.springblog.models.Post;
 
 
-//Long because of post ID?
+
 public interface PostRepository extends JpaRepository <Post, Long>{
-
-    //JPA queries
-    Post findByTitle(String title);
-
 }
