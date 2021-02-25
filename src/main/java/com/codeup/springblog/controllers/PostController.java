@@ -2,7 +2,9 @@
 package com.codeup.springblog.controllers;
 
 import com.codeup.springblog.models.Post;
+import com.codeup.springblog.models.User;
 import com.codeup.springblog.repositories.PostRepository;
+import com.codeup.springblog.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,12 @@ import java.util.List;
 public class PostController {
     //Dependency injections
     private final PostRepository postsDao;
+    private final UserRepository usersDao;
 
     //Nec. construct
-    public PostController (PostRepository postsDao){
+    public PostController (PostRepository postsDao, UserRepository usersDao){
         this.postsDao = postsDao;
+        this.usersDao = usersDao;
     }
 
     @GetMapping("/posts")
@@ -71,12 +75,17 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String createPost(){
-        return "Creating a new post...";
+    public String createPost(@RequestParam String title, @RequestParam String body){
+        Post post = new Post();
+        post.setTitle(title);
+        post.setBody(body);
+
+        //Needs user in DB
+        User user = usersDao.findAll().get(0);
+        //getting and setting user who created post
+        post.setUser(user);
+
+        postsDao.save(post);
+        return "redirect:/posts/"+post.getId();
     }
-
-
-
-
 }

@@ -4,7 +4,7 @@
 <head th:replace="partials/head :: header-links"></head>
 <body>
 <nav th:replace="partials/navbar :: navbar"></nav>
-
+<p style="font-weight: lighter">Author: <span th:text="${ad.getParentUser().getEmail()}"></span></p>
 <h1>Here is a single post !</h1>
 <h2 th:text="${post.title}"></h2>
 <h2 th:text="${post.body}"></h2>
