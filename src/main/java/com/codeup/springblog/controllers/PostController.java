@@ -86,6 +86,6 @@ public class PostController {
         post.setUser(user);
 
         postsDao.save(post);
-        return "redirect:/posts/"+post.getId();
+        return "redirect:/posts/"+ post.getId();
     }
 }
