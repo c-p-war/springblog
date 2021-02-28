@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class HomeController {
 
     private final UserRepository userDao;
+    //////////////////
+    //For Security//
+    ////////////////
     private final PasswordEncoder encoder;
 
     @GetMapping("/home")
