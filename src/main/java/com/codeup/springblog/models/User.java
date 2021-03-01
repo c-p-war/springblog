@@ -14,10 +14,10 @@ public class User {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 240)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 240)
     private String email;
 
     @OneToMany(mappedBy = "user")
